@@ -15,6 +15,7 @@ express()
   .set("view engine", "ejs")
   .get("/", (req, res) => res.render("pages/index"))
   .post("/slack/events", (req, res) => {
+    console.log(req);
     let body = req.body;
     let event = body.event;
     if (body.type === "event_callback") {
