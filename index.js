@@ -1,4 +1,5 @@
 const express = require("express");
+var bodyParser = require("body-parser");
 const path = require("path");
 const PORT = process.env.PORT || 5000;
 
@@ -11,11 +12,12 @@ const web = new WebClient(
 
 express()
   .use(express.static(path.join(__dirname, "public")))
+  .use(express.json())
   .set("views", path.join(__dirname, "views"))
   .set("view engine", "ejs")
   .get("/", (req, res) => res.render("pages/index"))
   .post("/slack/events", (req, res) => {
-    console.log(req);
+    console.log(req.body);
     let body = req.body;
     let event = body.event;
     if (body.type === "event_callback") {
