@@ -5,7 +5,9 @@ const PORT = process.env.PORT || 5000;
 const { WebClient } = require("@slack/web-api");
 
 const token = process.env.SLACK_TOKEN;
-const web = new WebClient(token);
+const web = new WebClient(
+  "xoxb-1110197986451-1126079502275-VldqERm5W5hriKocrwU9rNhw"
+);
 
 express()
   .use(express.static(path.join(__dirname, "public")))
