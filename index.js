@@ -1,21 +1,13 @@
 const express = require("express");
-var bodyParser = require("body-parser");
-const path = require("path");
 const PORT = process.env.PORT || 5000;
 
 const { WebClient } = require("@slack/web-api");
 
 const token = process.env.SLACK_TOKEN;
-const web = new WebClient(
-  "xoxb-1110197986451-1126079502275-VldqERm5W5hriKocrwU9rNhw"
-);
+const web = new WebClient(process.env.SLACK_TOKEN);
 
 express()
-  .use(express.static(path.join(__dirname, "public")))
   .use(express.json())
-  .set("views", path.join(__dirname, "views"))
-  .set("view engine", "ejs")
-  .get("/", (req, res) => res.render("pages/index"))
   .post("/slack/events", (req, res) => {
     console.log(req.body);
     let body = req.body;
