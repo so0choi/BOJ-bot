@@ -9,8 +9,8 @@ express()
     let body = req.body;
     let event = body.event;
     if (body.type === "event_callback") {
+      console.log(event);
       if (event.type === "message") {
-        console.log("oh");
         // 메시지 이벤트인 경우, 메시지가 '안녕'이면 '안녕하세요' 메시지 전송
         if (event.text === "안녕") {
           console.log(
