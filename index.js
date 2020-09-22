@@ -13,7 +13,7 @@ express()
       if (event.type === "message") {
         // 메시지 이벤트인 경우, 메시지가 '안녕'이면 '안녕하세요' 메시지 전송
         if (event.text.includes("안녕")) {
-          console.log(
+          console.log(.
             `인사 메시지 수신 channel:${event.channel}, user:${event.user}`
           );
           web.chat
