@@ -5,11 +5,10 @@ const { WebClient } = require("@slack/web-api");
 
 const token = process.env.SLACK_TOKEN;
 const web = new WebClient(process.env.SLACK_TOKEN);
-
+console.log(token);
 express()
   .use(express.json())
   .post("/slack/events", (req, res) => {
-    console.log(req.body);
     let body = req.body;
     let event = body.event;
     if (body.type === "event_callback") {
