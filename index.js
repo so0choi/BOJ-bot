@@ -1,8 +1,18 @@
 const express = require("express");
 const PORT = process.env.PORT || 5000;
 
-const { WebClient } = require("@slack/web-api");
+const { createEventAdapter } = require("@slack/web-api");
 const web = new WebClient(process.env.SLACK_TOKEN);
+const slackEvents = createEventAdapter(process.env.SLACK_TOKEN);
+slackEvents.on("message", (event) => {
+  console.log(
+    `Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`
+  );
+});
+
+const app = express();
+app.use(express.json());
+app.use("/slack/events", slackEvents.expressMiddleware());
 express()
   .use(express.json())
   .post("/slack/events", (req, res) => {
@@ -13,7 +23,7 @@ express()
       if (event.type === "message") {
         // 메시지 이벤트인 경우, 메시지가 '안녕'이면 '안녕하세요' 메시지 전송
         if (event.text.includes("안녕")) {
-          console.log(.
+          console.log(
             `인사 메시지 수신 channel:${event.channel}, user:${event.user}`
           );
           web.chat
