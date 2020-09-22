@@ -2,10 +2,7 @@ const express = require("express");
 const PORT = process.env.PORT || 5000;
 
 const { WebClient } = require("@slack/web-api");
-
-const token = process.env.SLACK_TOKEN;
 const web = new WebClient(process.env.SLACK_TOKEN);
-console.log(token);
 express()
   .use(express.json())
   .post("/slack/events", (req, res) => {
@@ -13,6 +10,7 @@ express()
     let event = body.event;
     if (body.type === "event_callback") {
       if (event.type === "message") {
+        console.log("oh");
         // 메시지 이벤트인 경우, 메시지가 '안녕'이면 '안녕하세요' 메시지 전송
         if (event.text === "안녕") {
           console.log(
