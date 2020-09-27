@@ -42,7 +42,7 @@ express()
             `인사 메시지 수신 channel:${event.channel}, user:${event.user}`
           );
           web.chat
-            .postMessage({ channel: event.channel, text: "안녕하세요." })
+            .postMessage({ channel: event.channel, text: "안녕하세요 :wink:" })
             .then((result) => {
               console.log("Message sent: " + result.ts);
             });
