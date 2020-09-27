@@ -28,7 +28,6 @@ const job = schedule.scheduleJob("0 0 9 * * *", function () {
   });
 });
 app.use(express.json());
-app.use("/slack/events", slackEvents.expressMiddleware());
 express()
   .use(express.json())
   .post("/slack/events", (req, res) => {
