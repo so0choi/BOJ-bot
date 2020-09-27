@@ -1,16 +1,32 @@
 const express = require("express");
 const PORT = process.env.PORT || 5000;
 const { WebClient } = require("@slack/web-api");
-const { createEventAdapter } = require("@slack/web-api");
 const web = new WebClient(process.env.SLACK_TOKEN);
-const slackEvents = createEventAdapter(process.env.SLACK_TOKEN);
-slackEvents.on("message", (event) => {
-  console.log(
-    `Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`
-  );
-});
+const schedule = require("node-schedule");
 
 const app = express();
+
+const getFormatDate = () => {
+  let date = new Date();
+  let year = date.getFullYear();
+  let month = date.getMonth();
+  let day = date.getDate();
+  return `${year}년 ${month}월 ${day}일`;
+};
+
+const job = schedule.scheduleJob("0 0 9 * * *", function () {
+  app.post("/slack/events", (req, res) => {
+    web.chat
+      .postMessage({
+        channel: "testchannel",
+        text: getFormatDate() + " 입니다.",
+      })
+      .then((result) => {
+        console.log("Message sent: " + result.ts);
+      });
+    res.sendStatus(200);
+  });
+});
 app.use(express.json());
 app.use("/slack/events", slackEvents.expressMiddleware());
 express()
